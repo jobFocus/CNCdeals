@@ -306,23 +306,6 @@ a {
   height: 100%;
 }
 
-.source-tag {
-  font-size: 0.72rem;
-  font-weight: 700;
-  width: fit-content;
-  padding: 4px 9px;
-  border-radius: 999px;
-  color: #fff;
-}
-
-.source-tag.aliexpress {
-  background: linear-gradient(135deg, #ff4f38, #ff7c45);
-}
-
-.source-tag.temu {
-  background: linear-gradient(135deg, #ff2d55, #fd8a39);
-}
-
 .product-name {
   margin: 0;
   font-size: 1.02rem;
@@ -372,19 +355,6 @@ a {
 .add-btn {
   background: linear-gradient(120deg, var(--grape), #5b45f4);
   color: #fff;
-}
-
-.source-link {
-  text-decoration: none;
-  border-radius: 10px;
-  padding: 8px 10px;
-  border: 1px solid rgba(60, 59, 90, 0.2);
-  background: #fff;
-  font-size: 0.86rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
 }
 
 .cart-drawer {

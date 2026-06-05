@@ -1,7 +1,6 @@
 (function () {
   const state = {
     products: Array.isArray(window.PRODUCTS) ? window.PRODUCTS : [],
-    activeSource: "All",
     cart: new Map(),
     paymentsMounted: false,
     motivationIndex: 0
@@ -15,7 +14,6 @@
   ];
 
   const productGrid = document.getElementById("product-grid");
-  const filterRow = document.getElementById("filter-row");
   const cartDrawer = document.getElementById("cart-drawer");
   const cartItems = document.getElementById("cart-items");
   const cartCount = document.getElementById("cart-count");
@@ -34,15 +32,6 @@
       style: "currency",
       currency: "USD"
     }).format(Number(value || 0));
-  }
-
-  function getFilteredProducts() {
-    if (state.activeSource === "All") {
-      return state.products;
-    }
-    return state.products.filter(function (product) {
-      return product.source === state.activeSource;
-    });
   }
 
   function getCartCount() {
@@ -96,16 +85,15 @@
   }
 
   function renderProducts() {
-    const items = getFilteredProducts();
+    const items = state.products;
 
     if (!items.length) {
-      productGrid.innerHTML = '<p class="empty-cart">No products found for this filter.</p>';
+      productGrid.innerHTML = '<p class="empty-cart">No products available.</p>';
       return;
     }
 
     productGrid.innerHTML = items
       .map(function (product) {
-        const sourceClass = product.source.toLowerCase();
         return (
           '<article class="product-card">' +
           '<img class="product-image" src="' +
@@ -114,11 +102,6 @@
           product.name +
           '">' +
           '<div class="product-body">' +
-          '<span class="source-tag ' +
-          sourceClass +
-          '">' +
-          product.source +
-          "</span>" +
           '<h3 class="product-name">' +
           product.name +
           "</h3>" +
@@ -141,9 +124,6 @@
           '<button class="add-btn" type="button" data-add-id="' +
           product.id +
           '">Add to Cart</button>' +
-          '<a class="source-link" href="' +
-          product.link +
-          '" target="_blank" rel="noopener noreferrer">View</a>' +
           "</div>" +
           "</div>" +
           "</article>"
@@ -268,18 +248,6 @@
     state.paymentsMounted = true;
   }
 
-  filterRow.addEventListener("click", function (event) {
-    const button = event.target.closest("button[data-source]");
-    if (!button) {
-      return;
-    }
-    state.activeSource = button.getAttribute("data-source");
-    Array.from(filterRow.querySelectorAll("button")).forEach(function (btn) {
-      btn.classList.toggle("active", btn === button);
-    });
-    renderProducts();
-  });
-
   productGrid.addEventListener("click", function (event) {
     const addButton = event.target.closest("button[data-add-id]");
     if (!addButton) {
@@ -332,7 +300,7 @@
   document.getElementById("year").textContent = String(new Date().getFullYear());
 
   animateMetric(metricProducts, state.products.length, "");
-  animateMetric(metricShops, 2, "");
+  animateMetric(metricShops, 3, "");
   animateMetric(metricEnergy, 100, "%");
   startMotivationRotation();
   renderProducts();
