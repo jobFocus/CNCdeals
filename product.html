@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CNC product details — specifications, pricing, and add to cart.">
+  <title>FlavorCNC Trends | Product</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD&intent=capture"></script>
+  <script async src="https://pay.google.com/gp/p/js/pay.js"></script>
+</head>
+<body>
+  <div class="flavor-bg" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <span class="blob blob-4"></span>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-logo">⚙️</span>
+      <div>
+        <p class="brand-title">FlavorCNC Trends</p>
+        <p class="brand-subtitle">Top 10 CNC Tools Picked for You</p>
+      </div>
+    </div>
+    <nav class="top-links">
+      <a href="index.html">← Back to Catalog</a>
+      <button id="open-cart-btn" class="cart-chip" type="button">
+        Cart <span id="cart-count">0</span>
+      </button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="product-detail" class="product-detail"></section>
+
+    <aside id="cart-drawer" class="cart-drawer" aria-label="Shopping cart">
+      <div class="cart-header">
+        <h2>Your Cart</h2>
+        <button id="close-cart-btn" class="icon-btn" type="button" aria-label="Close cart">✕</button>
+      </div>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-footer">
+        <div class="cart-row">
+          <span>Subtotal</span>
+          <strong id="cart-total">$0.00</strong>
+        </div>
+        <button id="checkout-btn" class="checkout-btn" type="button">Proceed to Checkout</button>
+      </div>
+    </aside>
+
+    <section id="checkout-section" class="checkout-section hidden">
+      <div class="checkout-head">
+        <h2>Checkout</h2>
+        <p>Pay securely using your preferred method.</p>
+      </div>
+      <div class="checkout-summary">
+        <p>Items: <strong id="checkout-items-count">0</strong></p>
+        <p>Total: <strong id="checkout-total">$0.00</strong></p>
+      </div>
+      <div class="payment-methods">
+        <article class="pay-card">
+          <h3>PayPal</h3>
+          <p>Fast checkout with your PayPal account.</p>
+          <div id="paypal-button-container" class="pay-slot"></div>
+        </article>
+        <article class="pay-card">
+          <h3>Google Pay</h3>
+          <p>Tap-and-go style payment powered by Google Pay.</p>
+          <div id="google-pay-button-container" class="pay-slot"></div>
+        </article>
+      </div>
+      <p id="payment-feedback" class="payment-feedback" aria-live="polite"></p>
+      <p class="sandbox-note">Sandbox/test payment mode is enabled by default. Replace credentials before production use.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> FlavorCNC Trends. Keep building with purpose.</p>
+  </footer>
+
+  <script src="products.js"></script>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var productId = params.get("id");
+      var product = (window.PRODUCTS || []).find(function (p) { return p.id === productId; });
+      var container = document.getElementById("product-detail");
+
+      if (!product) {
+        container.innerHTML = '<div style="text-align:center;padding:4rem 1rem"><h2>Product not found</h2><a href="index.html" class="cta-btn" style="display:inline-block;margin-top:1rem">Browse Catalog</a></div>';
+        return;
+      }
+
+      container.innerHTML =
+        '<article class="detail-card">' +
+          '<img class="detail-image" src="' + product.image + '" alt="' + product.name + '">' +
+          '<div class="detail-body">' +
+            '<h1 class="detail-title">' + product.name + '</h1>' +
+            '<p class="meta">⭐ ' + product.rating + ' · ' + product.sales + ' · Trend ' + product.trend + '/100</p>' +
+            '<p class="detail-desc">' + product.description + '</p>' +
+            '<div class="price-row"><p class="price">$' + product.price.toFixed(2) + '</p><p class="old-price">$' + product.oldPrice.toFixed(2) + '</p></div>' +
+            '<div class="detail-actions">' +
+              '<button class="add-btn detail-add-btn" type="button" data-add-id="' + product.id + '">Add to Cart</button>' +
+              '<a href="index.html" class="ghost-btn">Back to All Products</a>' +
+            '</div>' +
+          '</div>' +
+        '</article>';
+
+      var addBtn = container.querySelector(".detail-add-btn");
+      if (addBtn) {
+        addBtn.addEventListener("click", function () {
+          var cart = window.__appState && window.__appState.cart;
+          if (cart) {
+            var qty = cart.get(product.id) || 0;
+            cart.set(product.id, qty + 1);
+            window.__appState.paymentsMounted = false;
+            if (window.__renderCart) window.__renderCart();
+            document.getElementById("cart-drawer").classList.add("open");
+          }
+        });
+      }
+    })();
+  </script>
+  <script src="payments.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

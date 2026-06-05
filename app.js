@@ -96,15 +96,19 @@
       .map(function (product) {
         return (
           '<article class="product-card">' +
-          '<img class="product-image" src="' +
+          '<a href="product.html?id=' +
+          product.id +
+          '" class="product-image-link"><img class="product-image" src="' +
           product.image +
           '" alt="' +
           product.name +
-          '">' +
+          '"></a>' +
           '<div class="product-body">' +
-          '<h3 class="product-name">' +
+          '<a href="product.html?id=' +
+          product.id +
+          '" class="product-name-link"><h3 class="product-name">' +
           product.name +
-          "</h3>" +
+          "</h3></a>" +
           '<p class="meta">⭐ ' +
           product.rating +
           " · " +
@@ -305,4 +309,7 @@
   startMotivationRotation();
   renderProducts();
   renderCart();
+
+  window.__appState = state;
+  window.__renderCart = renderCart;
 })();

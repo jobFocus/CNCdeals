@@ -51,7 +51,7 @@ window.PRODUCTS = [
     rating: 4.8,
     sales: "3.8k+ sold",
     trend: 94,
-    image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80",
+    image: "https://www.sainsmart.com/cdn/shop/files/101-63-RE01image_3.jpg?v=1689927276",
     description: "Stable extension rod for deeper reach and better spindle flexibility during routing."
   },
   {
@@ -62,7 +62,7 @@ window.PRODUCTS = [
     rating: 4.7,
     sales: "1.8k+ sold",
     trend: 92,
-    image: "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=900&q=80",
+    image: "https://www.sainsmart.com/cdn/shop/products/Genmitsu4PackHoldDownClampKitforPROVerXL4030-01.jpg?v=1621930312",
     description: "Secure workholding accessories for reduced chatter and drift during milling operations."
   },
   {
@@ -95,7 +95,7 @@ window.PRODUCTS = [
     rating: 4.7,
     sales: "2.0k+ sold",
     trend: 89,
-    image: "https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&w=900&q=80",
+    image: "https://www.sainsmart.com/cdn/shop/products/101-60-284_01.jpg?v=1762552425",
     description: "Reliable controller board upgrade for smoother motion control and higher torque output."
   },
   {
@@ -106,7 +106,7 @@ window.PRODUCTS = [
     rating: 4.7,
     sales: "1.1k+ sold",
     trend: 88,
-    image: "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=900&q=80",
+    image: "https://littlemachineshop.com/cdn/shop/files/2965_b8e76eae-9e9b-48b3-a450-1a7a4cbed3a5.jpg?v=1751482850",
     description: "Improves tool life and finish quality on longer machining runs with adjustable spray."
   }
 ];

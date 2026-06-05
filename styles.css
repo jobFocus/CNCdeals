@@ -583,6 +583,82 @@ a {
   display: none !important;
 }
 
+.product-image-link {
+  display: block;
+  line-height: 0;
+}
+
+.product-name-link {
+  text-decoration: none;
+}
+
+.product-name-link:hover .product-name {
+  color: var(--grape);
+}
+
+.product-detail {
+  margin-top: 30px;
+}
+
+.detail-card {
+  display: flex;
+  gap: 30px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  padding: 24px;
+  flex-wrap: wrap;
+}
+
+.detail-image {
+  width: min(420px, 100%);
+  aspect-ratio: 1.1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+  flex-shrink: 0;
+}
+
+.detail-body {
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-title {
+  margin: 0;
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  line-height: 1.2;
+}
+
+.detail-desc {
+  margin: 0;
+  font-size: 1rem;
+  color: #3d4156;
+  line-height: 1.5;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.detail-add-btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 28px;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(130deg, var(--grape), #5b45f4);
+  color: #fff;
+  font-size: 1rem;
+}
+
 @media (max-width: 800px) {
   .topbar {
     flex-wrap: wrap;
