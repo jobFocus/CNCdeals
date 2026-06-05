@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Buy top trending CNC products from AliExpress and Temu with fast checkout options.">
+  <title>FlavorCNC Trends | Top 10 CNC Picks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD&intent=capture"></script>
+  <script async src="https://pay.google.com/gp/p/js/pay.js"></script>
+</head>
+<body>
+  <div class="flavor-bg" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <span class="blob blob-4"></span>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-logo">⚙️</span>
+      <div>
+        <p class="brand-title">FlavorCNC Trends</p>
+        <p class="brand-subtitle">AliExpress + Temu Top 10 Picks</p>
+      </div>
+    </div>
+    <nav class="top-links">
+      <a href="#catalog">Catalog</a>
+      <a href="#checkout-section">Checkout</a>
+      <button id="open-cart-btn" class="cart-chip" type="button">
+        Cart <span id="cart-count">0</span>
+      </button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero" id="home">
+      <p class="eyebrow">Craft Better. Sell Faster. Stay Ahead.</p>
+      <h1>Turn ideas into income with <span>top-trend CNC gear.</span></h1>
+      <p class="motivation" id="hero-motivation">Momentum starts with one sharp tool.</p>
+      <div class="hero-actions">
+        <button id="shop-now-btn" class="cta-btn" type="button">Shop the Top 10</button>
+        <a href="#catalog" class="ghost-btn">Explore Deals</a>
+      </div>
+      <div class="metrics">
+        <article>
+          <h3 id="metric-products">0</h3>
+          <p>Trend products</p>
+        </article>
+        <article>
+          <h3 id="metric-shops">0</h3>
+          <p>Source marketplaces</p>
+        </article>
+        <article>
+          <h3 id="metric-energy">0%</h3>
+          <p>Creator motivation</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="catalog" class="catalog">
+      <div class="section-head">
+        <h2>CNC Top Trend Products</h2>
+        <p>Curated picks from AliExpress and Temu to boost your workshop output.</p>
+      </div>
+      <div class="filter-row" id="filter-row">
+        <button class="filter-btn active" data-source="All" type="button">All</button>
+        <button class="filter-btn" data-source="AliExpress" type="button">AliExpress</button>
+        <button class="filter-btn" data-source="Temu" type="button">Temu</button>
+      </div>
+      <div id="product-grid" class="product-grid" aria-live="polite"></div>
+    </section>
+
+    <aside id="cart-drawer" class="cart-drawer" aria-label="Shopping cart">
+      <div class="cart-header">
+        <h2>Your Cart</h2>
+        <button id="close-cart-btn" class="icon-btn" type="button" aria-label="Close cart">✕</button>
+      </div>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-footer">
+        <div class="cart-row">
+          <span>Subtotal</span>
+          <strong id="cart-total">$0.00</strong>
+        </div>
+        <button id="checkout-btn" class="checkout-btn" type="button">Proceed to Checkout</button>
+      </div>
+    </aside>
+
+    <section id="checkout-section" class="checkout-section hidden">
+      <div class="checkout-head">
+        <h2>Checkout</h2>
+        <p>Pay securely using your preferred method.</p>
+      </div>
+      <div class="checkout-summary">
+        <p>Items: <strong id="checkout-items-count">0</strong></p>
+        <p>Total: <strong id="checkout-total">$0.00</strong></p>
+      </div>
+      <div class="payment-methods">
+        <article class="pay-card">
+          <h3>PayPal</h3>
+          <p>Fast checkout with your PayPal account.</p>
+          <div id="paypal-button-container" class="pay-slot"></div>
+        </article>
+        <article class="pay-card">
+          <h3>Google Pay</h3>
+          <p>Tap-and-go style payment powered by Google Pay.</p>
+          <div id="google-pay-button-container" class="pay-slot"></div>
+        </article>
+      </div>
+      <p id="payment-feedback" class="payment-feedback" aria-live="polite"></p>
+      <p class="sandbox-note">Sandbox/test payment mode is enabled by default. Replace credentials before production use.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> FlavorCNC Trends. Keep building with purpose.</p>
+  </footer>
+
+  <script src="products.js"></script>
+  <script src="payments.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
