@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD&intent=capture"></script>
   <script async src="https://pay.google.com/gp/p/js/pay.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
   <div class="noise-bg"></div>
@@ -90,7 +91,7 @@
       </div>
     </section>
 
-    <!-- VIDEO GALLERY -->
+    <!-- VIDEO WALL -->
     <section class="section" id="videos">
       <div class="section-header">
         <span class="section-eyebrow">CNC World</span>
@@ -105,6 +106,16 @@
         <button class="filter-btn" data-filter="diy">DIY</button>
       </div>
       <div class="video-grid" id="video-grid"></div>
+    </section>
+
+    <!-- TikTok-style Video Reel -->
+    <section class="section reel-section">
+      <div class="section-header">
+        <span class="section-eyebrow">CNC Reels</span>
+        <h2 class="section-title">⚡ In The Workshop</h2>
+        <p class="section-desc">Raw, unfiltered CNC machining clips — scroll &amp; watch.</p>
+      </div>
+      <div class="reel-grid" id="reel-grid"></div>
     </section>
 
     <!-- STATS BANNER -->
@@ -275,6 +286,13 @@
       { id: 4, title: "CNC Milling Aluminum Engine Block", description: "Full engine block machining from solid billet aluminum.", embedId: "LWksw7tD1Qs", category: "machining" },
       { id: 5, title: "CNC Router - Beginner to Pro", description: "Complete guide to CNC router projects for beginners.", embedId: "3gkGq-5gCwk", category: "diy" },
       { id: 6, title: "CNC Lathe Precision Turning", description: "Swiss-type CNC lathe creating micro-components.", embedId: "aLBwL8mgn_A", category: "machining" }
+    ];
+
+    const REEL_VIDEOS = [
+      { id: "r1", embedId: "kNfq8pM1K_0", caption: "5-axis machining a turbine blade" },
+      { id: "r2", embedId: "YTq4Ppz_wYg", caption: "CNC carving a 3D wooden relief" },
+      { id: "r3", embedId: "QwEYY_hHbGo", caption: "Plasma cutting through 1in steel" },
+      { id: "r4", embedId: "LWksw7tD1Qs", caption: "Engine block from solid billet" },
     ];
 
     const TESTIMONIALS = [

@@ -167,12 +167,89 @@ img { max-width: 100%; display: block; }
   border-radius: 16px; overflow: hidden; transition: all 0.3s;
 }
 .video-card:hover { border-color: rgba(12, 142, 231, 0.3); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
-.video-frame { position: relative; aspect-ratio: 16 / 9; background: #111; }
+.video-frame { position: relative; aspect-ratio: 16 / 9; background: #111; overflow: hidden; }
 .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.video-frame .fallback-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .video-info { padding: 16px; }
 .video-category { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #36aaf5; }
 .video-title { font-size: 1rem; font-weight: 600; color: #fff; margin: 4px 0 8px; }
 .video-desc { font-size: 0.85rem; color: #6b7280; line-height: 1.5; }
+
+/* ===== TIKTOK-STYLE REELS ===== */
+.reel-section { padding-top: 0; }
+.reel-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.reel-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #111;
+  aspect-ratio: 9 / 16;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s;
+}
+.reel-card:hover {
+  border-color: rgba(12, 142, 231, 0.5);
+  transform: scale(1.02);
+  box-shadow: 0 8px 32px rgba(12, 142, 231, 0.2);
+}
+.reel-card iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+}
+.reel-card .reel-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40px 12px 12px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.85));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.reel-card:hover .reel-overlay { opacity: 1; }
+.reel-card .reel-caption {
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.reel-card .reel-play-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s;
+  backdrop-filter: blur(4px);
+}
+.reel-card:hover .reel-play-icon { opacity: 1; }
+.reel-card .reel-play-icon svg { width: 24px; height: 24px; margin-left: 3px; }
+
+@media (max-width: 860px) {
+  .reel-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .reel-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+}
 
 /* ===== STATS BANNER ===== */
 .stats-banner {

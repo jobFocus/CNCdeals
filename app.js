@@ -9,6 +9,7 @@
 
   const productGrid = document.getElementById("product-grid");
   const videoGrid = document.getElementById("video-grid");
+  const reelGrid = document.getElementById("reel-grid");
   const testimonialsGrid = document.getElementById("testimonials-grid");
   const cartOverlay = document.getElementById("cart-drawer");
   const cartItems = document.getElementById("cart-items");
@@ -67,10 +68,11 @@
       filtered = CNC_VIDEOS.filter(function (v) { return v.category === state.activeVideoFilter; });
     }
     videoGrid.innerHTML = filtered.map(function (v) {
+      var poster = "https://i.ytimg.com/vi/" + v.embedId + "/hqdefault.jpg";
       return (
         '<article class="video-card">' +
           '<div class="video-frame">' +
-            '<iframe src="https://www.youtube.com/embed/' + v.embedId + '" title="' + v.title + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>' +
+            '<iframe src="https://www.youtube.com/embed/' + v.embedId + '?autoplay=0&rel=0&modestbranding=1" title="' + v.title + '" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
           '</div>' +
           '<div class="video-info">' +
             '<span class="video-category">' + v.category + '</span>' +
@@ -78,6 +80,21 @@
             '<p class="video-desc">' + v.description + '</p>' +
           '</div>' +
         '</article>'
+      );
+    }).join("");
+  }
+
+  /* ===== TIKTOK-STYLE REELS ===== */
+  function renderReels() {
+    if (!reelGrid) return;
+    reelGrid.innerHTML = REEL_VIDEOS.map(function (r, i) {
+      var poster = "https://i.ytimg.com/vi/" + r.embedId + "/hqdefault.jpg";
+      return (
+        '<div class="reel-card" data-embed="' + r.embedId + '" data-index="' + i + '">' +
+          '<iframe src="https://www.youtube.com/embed/' + r.embedId + '?autoplay=1&mute=1&loop=1&playlist=' + r.embedId + '&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1" title="' + r.caption + '" allow="autoplay; encrypted-media; gyroscope" loading="lazy"></iframe>' +
+          '<div class="reel-overlay"><span class="reel-caption">' + r.caption + '</span></div>' +
+          '<div class="reel-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>' +
+        '</div>'
       );
     }).join("");
   }
@@ -341,8 +358,21 @@
     });
   }
 
+  /* ===== REEL CLICK HANDLER ===== */
+  if (reelGrid) {
+    reelGrid.addEventListener("click", function (e) {
+      var card = e.target.closest(".reel-card");
+      if (!card) return;
+      var embedId = card.getAttribute("data-embed");
+      if (embedId) {
+        window.open("https://www.youtube.com/watch?v=" + embedId, "_blank");
+      }
+    });
+  }
+
   /* ===== INIT ===== */
   renderVideos();
+  renderReels();
   renderTestimonials();
   renderProducts();
   renderCart();
