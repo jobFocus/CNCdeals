@@ -113,9 +113,22 @@
       <div class="section-header">
         <span class="section-eyebrow">CNC Reels</span>
         <h2 class="section-title">⚡ In The Workshop</h2>
-        <p class="section-desc">Raw, unfiltered CNC machining clips — scroll &amp; watch.</p>
+        <p class="section-desc">Real-time CNC machining simulations — watch them in action.</p>
       </div>
-      <div class="reel-grid" id="reel-grid"></div>
+      <div class="reel-grid" id="reel-grid">
+        <div class="reel-card" data-label="CNC Milling">
+          <div class="reel-label">CNC Milling</div>
+        </div>
+        <div class="reel-card" data-label="Toolpath">
+          <div class="reel-label">Toolpath</div>
+        </div>
+        <div class="reel-card" data-label="CNC Lathe">
+          <div class="reel-label">CNC Lathe</div>
+        </div>
+        <div class="reel-card" data-label="Plasma Cutting">
+          <div class="reel-label">Plasma Cutting</div>
+        </div>
+      </div>
     </section>
 
     <!-- STATS BANNER -->
@@ -288,13 +301,6 @@
       { id: 6, title: "CNC Lathe Precision Turning", description: "Swiss-type CNC lathe creating micro-components.", embedId: "aLBwL8mgn_A", category: "machining" }
     ];
 
-    const REEL_VIDEOS = [
-      { id: "r1", embedId: "kNfq8pM1K_0", caption: "5-axis machining a turbine blade" },
-      { id: "r2", embedId: "YTq4Ppz_wYg", caption: "CNC carving a 3D wooden relief" },
-      { id: "r3", embedId: "QwEYY_hHbGo", caption: "Plasma cutting through 1in steel" },
-      { id: "r4", embedId: "LWksw7tD1Qs", caption: "Engine block from solid billet" },
-    ];
-
     const TESTIMONIALS = [
       { name: "Alex M.", role: "Machinist", avatar: "AM", content: "The CNC 6040 I bought exceeded expectations. Perfect for my workshop. Shipping was fast and support team helped me with setup." },
       { name: "Sarah K.", role: "Product Designer", avatar: "SK", content: "I've been buying end mills and spindles here for 2 years. Consistent quality and best prices in the market." },
@@ -317,5 +323,6 @@
   <script src="products.js"></script>
   <script src="app.js"></script>
   <script src="payments.js"></script>
+  <script src="cnc-canvas.js"></script>
 </body>
 </html>

@@ -9,7 +9,6 @@
 
   const productGrid = document.getElementById("product-grid");
   const videoGrid = document.getElementById("video-grid");
-  const reelGrid = document.getElementById("reel-grid");
   const testimonialsGrid = document.getElementById("testimonials-grid");
   const cartOverlay = document.getElementById("cart-drawer");
   const cartItems = document.getElementById("cart-items");
@@ -91,22 +90,6 @@
         if (vid) window.open("https://www.youtube.com/watch?v=" + vid, "_blank");
       });
     });
-  }
-
-  /* ===== TIKTOK-STYLE REELS ===== */
-  function renderReels() {
-    if (!reelGrid) return;
-    reelGrid.innerHTML = REEL_VIDEOS.map(function (r, i) {
-      var poster = "https://i.ytimg.com/vi/" + r.embedId + "/maxresdefault.jpg";
-      return (
-        '<div class="reel-card" data-embed="' + r.embedId + '" data-index="' + i + '">' +
-          '<img class="reel-poster" src="' + poster + '" alt="' + r.caption + '" loading="lazy">' +
-          '<div class="reel-scanline"></div>' +
-          '<div class="reel-overlay"><span class="reel-caption">' + r.caption + '</span></div>' +
-          '<div class="reel-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>' +
-        '</div>'
-      );
-    }).join("");
   }
 
   /* ===== TESTIMONIALS ===== */
@@ -368,19 +351,8 @@
     });
   }
 
-  /* ===== REEL CLICK HANDLER ===== */
-  if (reelGrid) {
-    reelGrid.addEventListener("click", function (e) {
-      var card = e.target.closest(".reel-card");
-      if (!card) return;
-      var embedId = card.getAttribute("data-embed");
-      if (embedId) window.open("https://www.youtube.com/watch?v=" + embedId, "_blank");
-    });
-  }
-
   /* ===== INIT ===== */
   renderVideos();
-  renderReels();
   renderTestimonials();
   renderProducts();
   renderCart();
