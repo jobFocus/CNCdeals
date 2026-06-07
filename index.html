@@ -49,38 +49,58 @@
         <div class="hero-glow hero-glow-1"></div>
         <div class="hero-glow hero-glow-2"></div>
       </div>
-      <div class="hero-content">
-        <div class="hero-chip">
-          <span class="chip-dot"></span>
-          Precision Machining &amp; CNC Solutions
-        </div>
-        <h1 class="hero-title">
-          Precision<br>
-          <span class="gradient-text">Engineered</span><br>
-          For Perfection
-        </h1>
-        <p class="hero-sub" id="hero-sub">
-          From hobbyist routers to industrial 5-axis — get the tools, parts, and knowledge to machine with micron-level precision.
-        </p>
-        <div class="hero-actions">
-          <a href="#catalog" class="btn-primary">Explore Products</a>
-          <a href="#videos" class="btn-ghost">
-            <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            Watch Videos
-          </a>
-        </div>
-        <div class="hero-metrics">
-          <div class="metric">
-            <span class="metric-value" id="metric-products">0</span>
-            <span class="metric-label">Products</span>
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-chip">
+            <span class="chip-dot"></span>
+            Precision Machining &amp; CNC Solutions
           </div>
-          <div class="metric">
-            <span class="metric-value" id="metric-customers">0</span>
-            <span class="metric-label">Customers</span>
+          <h1 class="hero-title">
+            Precision<br>
+            <span class="gradient-text">Engineered</span><br>
+            For Perfection
+          </h1>
+          <p class="hero-sub" id="hero-sub">
+            From hobbyist routers to industrial 5-axis — get the tools, parts, and knowledge to machine with micron-level precision.
+          </p>
+          <div class="hero-actions">
+            <a href="#catalog" class="btn-primary">Explore Products</a>
+            <a href="#videos" class="btn-ghost">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              Watch Videos
+            </a>
           </div>
-          <div class="metric">
-            <span class="metric-value">99<span class="metric-percent">%</span></span>
-            <span class="metric-label">Satisfaction</span>
+          <div class="hero-metrics">
+            <div class="metric">
+              <span class="metric-value" id="metric-products">0</span>
+              <span class="metric-label">Products</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value" id="metric-customers">0</span>
+              <span class="metric-label">Customers</span>
+            </div>
+            <div class="metric">
+              <span class="metric-value">99<span class="metric-percent">%</span></span>
+              <span class="metric-label">Satisfaction</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-reels">
+          <div class="reel-card" data-label="CNC Milling">
+            <video class="reel-video" src="videos/reel-1.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="reel-label">CNC Milling</div>
+          </div>
+          <div class="reel-card" data-label="Toolpath">
+            <video class="reel-video" src="videos/reel-2.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="reel-label">Toolpath</div>
+          </div>
+          <div class="reel-card" data-label="CNC Lathe">
+            <video class="reel-video" src="videos/reel-3.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="reel-label">CNC Lathe</div>
+          </div>
+          <div class="reel-card" data-label="Plasma Cutting">
+            <video class="reel-video" src="videos/reel-4.mp4" muted loop playsinline preload="metadata"></video>
+            <div class="reel-label">Plasma Cutting</div>
           </div>
         </div>
       </div>
@@ -112,20 +132,24 @@
     <section class="section reel-section">
       <div class="section-header">
         <span class="section-eyebrow">CNC Reels</span>
-        <h2 class="section-title">⚡ In The Workshop</h2>
-        <p class="section-desc">Real-time CNC machining simulations — watch them in action.</p>
+        <h2 class="section-title">In The Workshop</h2>
+        <p class="section-desc">Real CNC machining footage — precision in motion.</p>
       </div>
       <div class="reel-grid" id="reel-grid">
         <div class="reel-card" data-label="CNC Milling">
+          <video class="reel-video" src="videos/reel-1.mp4" muted loop playsinline preload="metadata"></video>
           <div class="reel-label">CNC Milling</div>
         </div>
         <div class="reel-card" data-label="Toolpath">
+          <video class="reel-video" src="videos/reel-2.mp4" muted loop playsinline preload="metadata"></video>
           <div class="reel-label">Toolpath</div>
         </div>
         <div class="reel-card" data-label="CNC Lathe">
+          <video class="reel-video" src="videos/reel-3.mp4" muted loop playsinline preload="metadata"></video>
           <div class="reel-label">CNC Lathe</div>
         </div>
         <div class="reel-card" data-label="Plasma Cutting">
+          <video class="reel-video" src="videos/reel-4.mp4" muted loop playsinline preload="metadata"></video>
           <div class="reel-label">Plasma Cutting</div>
         </div>
       </div>
@@ -323,6 +347,20 @@
   <script src="products.js"></script>
   <script src="app.js"></script>
   <script src="payments.js"></script>
-  <script src="cnc-canvas.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const videos = document.querySelectorAll('.reel-video');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.play().catch(() => {});
+          } else {
+            entry.target.pause();
+          }
+        });
+      }, { threshold: 0.3 });
+      videos.forEach(v => observer.observe(v));
+    });
+  </script>
 </body>
 </html>
