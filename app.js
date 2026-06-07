@@ -68,11 +68,13 @@
       filtered = CNC_VIDEOS.filter(function (v) { return v.category === state.activeVideoFilter; });
     }
     videoGrid.innerHTML = filtered.map(function (v) {
-      var poster = "https://i.ytimg.com/vi/" + v.embedId + "/hqdefault.jpg";
+      var poster = "https://i.ytimg.com/vi/" + v.embedId + "/maxresdefault.jpg";
       return (
-        '<article class="video-card">' +
+        '<article class="video-card" data-youtube="' + v.embedId + '">' +
           '<div class="video-frame">' +
-            '<iframe src="https://www.youtube.com/embed/' + v.embedId + '?autoplay=0&rel=0&modestbranding=1" title="' + v.title + '" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+            '<img class="video-poster" src="' + poster + '" alt="' + v.title + '" loading="lazy">' +
+            '<div class="video-play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>' +
+            '<div class="video-shimmer"></div>' +
           '</div>' +
           '<div class="video-info">' +
             '<span class="video-category">' + v.category + '</span>' +
@@ -82,16 +84,24 @@
         '</article>'
       );
     }).join("");
+    // Click handler — play video on YouTube
+    videoGrid.querySelectorAll(".video-card").forEach(function (card) {
+      card.addEventListener("click", function () {
+        var vid = card.getAttribute("data-youtube");
+        if (vid) window.open("https://www.youtube.com/watch?v=" + vid, "_blank");
+      });
+    });
   }
 
   /* ===== TIKTOK-STYLE REELS ===== */
   function renderReels() {
     if (!reelGrid) return;
     reelGrid.innerHTML = REEL_VIDEOS.map(function (r, i) {
-      var poster = "https://i.ytimg.com/vi/" + r.embedId + "/hqdefault.jpg";
+      var poster = "https://i.ytimg.com/vi/" + r.embedId + "/maxresdefault.jpg";
       return (
         '<div class="reel-card" data-embed="' + r.embedId + '" data-index="' + i + '">' +
-          '<iframe src="https://www.youtube.com/embed/' + r.embedId + '?autoplay=1&mute=1&loop=1&playlist=' + r.embedId + '&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1" title="' + r.caption + '" allow="autoplay; encrypted-media; gyroscope" loading="lazy"></iframe>' +
+          '<img class="reel-poster" src="' + poster + '" alt="' + r.caption + '" loading="lazy">' +
+          '<div class="reel-scanline"></div>' +
           '<div class="reel-overlay"><span class="reel-caption">' + r.caption + '</span></div>' +
           '<div class="reel-play-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>' +
         '</div>'
@@ -364,9 +374,7 @@
       var card = e.target.closest(".reel-card");
       if (!card) return;
       var embedId = card.getAttribute("data-embed");
-      if (embedId) {
-        window.open("https://www.youtube.com/watch?v=" + embedId, "_blank");
-      }
+      if (embedId) window.open("https://www.youtube.com/watch?v=" + embedId, "_blank");
     });
   }
 
