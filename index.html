@@ -3,123 +3,301 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Buy top trending CNC products with fast checkout options. Curated picks to boost your workshop output.">
-  <title>FlavorCNC Trends | Top 10 CNC Picks</title>
+  <meta name="description" content="Premium CNC machines, parts, and tools for precision machining. Shop top CNC routers, spindles, controllers, and end mills.">
+  <title>CNC Deals — Precision Machining Store</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD&intent=capture"></script>
   <script async src="https://pay.google.com/gp/p/js/pay.js"></script>
 </head>
 <body>
-  <div class="flavor-bg" aria-hidden="true">
-    <span class="blob blob-1"></span>
-    <span class="blob blob-2"></span>
-    <span class="blob blob-3"></span>
-    <span class="blob blob-4"></span>
-  </div>
+  <div class="noise-bg"></div>
 
-  <header class="topbar">
-    <div class="brand">
-      <span class="brand-logo">⚙️</span>
-      <div>
-        <p class="brand-title">FlavorCNC Trends</p>
-        <p class="brand-subtitle">Top 10 CNC Tools Picked for You</p>
-      </div>
-    </div>
-    <nav class="top-links">
-      <a href="#catalog">Catalog</a>
-      <a href="#checkout-section">Checkout</a>
-      <button id="open-cart-btn" class="cart-chip" type="button">
-        Cart <span id="cart-count">0</span>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <span class="brand-icon">⚙</span>
+        <span class="brand-text">CNC <span class="brand-accent">Deals</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="#videos">Videos</a>
+        <a href="#catalog">Products</a>
+        <a href="#features">Features</a>
+        <a href="#reviews">Reviews</a>
+        <button id="open-cart-btn" class="cart-btn" type="button">
+          <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span id="cart-count">0</span>
+        </button>
+      </nav>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" type="button">
+        <span></span><span></span><span></span>
       </button>
-    </nav>
+    </div>
   </header>
 
-  <main class="container">
+  <main>
+    <!-- HERO -->
     <section class="hero" id="home">
-      <p class="eyebrow">Craft Better. Sell Faster. Stay Ahead.</p>
-      <h1>Turn ideas into income with <span>top-trend CNC gear.</span></h1>
-      <p class="motivation" id="hero-motivation">Momentum starts with one sharp tool.</p>
-      <div class="hero-actions">
-        <button id="shop-now-btn" class="cta-btn" type="button">Shop the Top 10</button>
-        <a href="#catalog" class="ghost-btn">Explore Deals</a>
+      <div class="hero-bg">
+        <div class="hero-glow hero-glow-1"></div>
+        <div class="hero-glow hero-glow-2"></div>
       </div>
-      <div class="metrics">
-        <article>
-          <h3 id="metric-products">0</h3>
-          <p>Trend products</p>
-        </article>
-        <article>
-          <h3 id="metric-shops">0</h3>
-          <p>Brands featured</p>
-        </article>
-        <article>
-          <h3 id="metric-energy">0%</h3>
-          <p>Creator motivation</p>
-        </article>
+      <div class="hero-content">
+        <div class="hero-chip">
+          <span class="chip-dot"></span>
+          Precision Machining &amp; CNC Solutions
+        </div>
+        <h1 class="hero-title">
+          Precision<br>
+          <span class="gradient-text">Engineered</span><br>
+          For Perfection
+        </h1>
+        <p class="hero-sub" id="hero-sub">
+          From hobbyist routers to industrial 5-axis — get the tools, parts, and knowledge to machine with micron-level precision.
+        </p>
+        <div class="hero-actions">
+          <a href="#catalog" class="btn-primary">Explore Products</a>
+          <a href="#videos" class="btn-ghost">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            Watch Videos
+          </a>
+        </div>
+        <div class="hero-metrics">
+          <div class="metric">
+            <span class="metric-value" id="metric-products">0</span>
+            <span class="metric-label">Products</span>
+          </div>
+          <div class="metric">
+            <span class="metric-value" id="metric-customers">0</span>
+            <span class="metric-label">Customers</span>
+          </div>
+          <div class="metric">
+            <span class="metric-value">99<span class="metric-percent">%</span></span>
+            <span class="metric-label">Satisfaction</span>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <svg class="scroll-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+        </svg>
       </div>
     </section>
 
-    <section id="catalog" class="catalog">
-      <div class="section-head">
-        <h2>CNC Top Trend Products</h2>
-        <p>Curated picks to boost your workshop output.</p>
+    <!-- VIDEO GALLERY -->
+    <section class="section" id="videos">
+      <div class="section-header">
+        <span class="section-eyebrow">CNC World</span>
+        <h2 class="section-title">Videos That Inspire</h2>
+        <p class="section-desc">Watch CNC machines push the boundaries of precision in action.</p>
       </div>
-      <div class="filter-row" id="filter-row">
-        <button class="filter-btn active" data-source="All" type="button">All</button>
+      <div class="filter-row" id="video-filter-row">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="machining">Machining</button>
+        <button class="filter-btn" data-filter="woodworking">Woodworking</button>
+        <button class="filter-btn" data-filter="cutting">Cutting</button>
+        <button class="filter-btn" data-filter="diy">DIY</button>
       </div>
-      <div id="product-grid" class="product-grid" aria-live="polite"></div>
+      <div class="video-grid" id="video-grid"></div>
     </section>
 
-    <aside id="cart-drawer" class="cart-drawer" aria-label="Shopping cart">
+    <!-- STATS BANNER -->
+    <section class="stats-banner">
+      <div class="stat-item">
+        <span class="stat-number">50K+</span>
+        <span class="stat-label">Products Shipped</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">12K+</span>
+        <span class="stat-label">Happy Customers</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">48hr</span>
+        <span class="stat-label">Dispatch Time</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="stat-trending">0</span>
+        <span class="stat-label">Trending Items</span>
+      </div>
+    </section>
+
+    <!-- PRODUCT CATALOG -->
+    <section class="section" id="catalog">
+      <div class="section-header">
+        <span class="section-eyebrow">Top Picks</span>
+        <h2 class="section-title">CNC Trending Products</h2>
+        <p class="section-desc">Curated picks to boost your workshop output.</p>
+      </div>
+      <div class="filter-row" id="product-filter-row">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="router">Routers &amp; Machines</button>
+        <button class="filter-btn" data-filter="bits">Bits &amp; Tooling</button>
+        <button class="filter-btn" data-filter="accessories">Accessories</button>
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section" id="features">
+      <div class="section-header">
+        <span class="section-eyebrow">Why Choose Us</span>
+        <h2 class="section-title">Built for Makers</h2>
+        <p class="section-desc">Thousands of machinists trust us for quality and support.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <h3 class="feature-title">Premium Quality</h3>
+          <p class="feature-desc">Every product is tested for precision and durability before shipping.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <h3 class="feature-title">Fast Shipping</h3>
+          <p class="feature-desc">Global shipping with tracking. Most orders dispatch within 48 hours.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3 class="feature-title">24/7 Support</h3>
+          <p class="feature-desc">CNC experts available via chat and email to help you any time.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <h3 class="feature-title">Best Prices</h3>
+          <p class="feature-desc">Competitive pricing with volume discounts for workshops and schools.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="section" id="reviews">
+      <div class="section-header">
+        <span class="section-eyebrow">Testimonials</span>
+        <h2 class="section-title">What Makers Say</h2>
+      </div>
+      <div class="testimonials-grid" id="testimonials-grid"></div>
+    </section>
+  </main>
+
+  <!-- CART DRAWER -->
+  <aside id="cart-drawer" class="cart-overlay">
+    <div class="cart-drawer">
       <div class="cart-header">
-        <h2>Your Cart</h2>
-        <button id="close-cart-btn" class="icon-btn" type="button" aria-label="Close cart">✕</button>
+        <h2 class="cart-heading">Your Cart</h2>
+        <button id="close-cart-btn" class="cart-close" type="button" aria-label="Close cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
       </div>
       <div id="cart-items" class="cart-items"></div>
       <div class="cart-footer">
-        <div class="cart-row">
-          <span>Subtotal</span>
+        <div class="cart-total-row">
+          <span>Total</span>
           <strong id="cart-total">$0.00</strong>
         </div>
         <button id="checkout-btn" class="checkout-btn" type="button">Proceed to Checkout</button>
       </div>
-    </aside>
+    </div>
+  </aside>
 
-    <section id="checkout-section" class="checkout-section hidden">
-      <div class="checkout-head">
+  <!-- CHECKOUT -->
+  <section id="checkout-section" class="checkout-section hidden">
+    <div class="checkout-card">
+      <div class="checkout-header">
         <h2>Checkout</h2>
         <p>Pay securely using your preferred method.</p>
       </div>
       <div class="checkout-summary">
-        <p>Items: <strong id="checkout-items-count">0</strong></p>
-        <p>Total: <strong id="checkout-total">$0.00</strong></p>
+        <span>Items: <strong id="checkout-items-count">0</strong></span>
+        <span>Total: <strong id="checkout-total">$0.00</strong></span>
       </div>
-      <div class="payment-methods">
-        <article class="pay-card">
-          <h3>PayPal</h3>
+      <div class="payment-grid">
+        <div class="pay-card">
+          <h3><span class="pay-brand">PayPal</span></h3>
           <p>Fast checkout with your PayPal account.</p>
           <div id="paypal-button-container" class="pay-slot"></div>
-        </article>
-        <article class="pay-card">
-          <h3>Google Pay</h3>
+        </div>
+        <div class="pay-card">
+          <h3><span class="pay-brand">Google Pay</span></h3>
           <p>Tap-and-go style payment powered by Google Pay.</p>
           <div id="google-pay-button-container" class="pay-slot"></div>
-        </article>
+        </div>
       </div>
-      <p id="payment-feedback" class="payment-feedback" aria-live="polite"></p>
+      <p id="payment-feedback" class="payment-feedback"></p>
       <p class="sandbox-note">Sandbox/test payment mode is enabled by default. Replace credentials before production use.</p>
-    </section>
-  </main>
+    </div>
+  </section>
 
+  <!-- FOOTER -->
   <footer class="footer">
-    <p>© <span id="year"></span> FlavorCNC Trends. Keep building with purpose.</p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-icon">⚙</span>
+        <span class="brand-text">CNC <span class="brand-accent">Deals</span></span>
+        <p>Your trusted source for CNC machines, parts, and knowledge since 2024.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="#videos">Videos</a>
+        <a href="#catalog">Products</a>
+        <a href="#features">Features</a>
+        <a href="#reviews">Reviews</a>
+      </div>
+      <div class="footer-links">
+        <h4>Contact</h4>
+        <span>hello@cncdeals.com</span>
+        <span>+1 (555) 123-4567</span>
+        <span>Austin, TX, USA</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="year"></span> CNC Deals. All rights reserved.</p>
+    </div>
   </footer>
 
+  <script>
+    const CNC_VIDEOS = [
+      { id: 1, title: "5-Axis CNC Machining in Action", description: "Watch a 5-axis CNC machine create complex aerospace parts.", embedId: "kNfq8pM1K_0", category: "machining" },
+      { id: 2, title: "CNC Router Wood Carving", description: "Incredible 3D wood carving using a 4-axis CNC router.", embedId: "YTq4Ppz_wYg", category: "woodworking" },
+      { id: 3, title: "CNC Plasma Cutting Steel", description: "High-speed plasma cutting on 1-inch steel plate.", embedId: "QwEYY_hHbGo", category: "cutting" },
+      { id: 4, title: "CNC Milling Aluminum Engine Block", description: "Full engine block machining from solid billet aluminum.", embedId: "LWksw7tD1Qs", category: "machining" },
+      { id: 5, title: "CNC Router - Beginner to Pro", description: "Complete guide to CNC router projects for beginners.", embedId: "3gkGq-5gCwk", category: "diy" },
+      { id: 6, title: "CNC Lathe Precision Turning", description: "Swiss-type CNC lathe creating micro-components.", embedId: "aLBwL8mgn_A", category: "machining" }
+    ];
+
+    const TESTIMONIALS = [
+      { name: "Alex M.", role: "Machinist", avatar: "AM", content: "The CNC 6040 I bought exceeded expectations. Perfect for my workshop. Shipping was fast and support team helped me with setup." },
+      { name: "Sarah K.", role: "Product Designer", avatar: "SK", content: "I've been buying end mills and spindles here for 2 years. Consistent quality and best prices in the market." },
+      { name: "James R.", role: "Hobbyist", avatar: "JR", content: "Built my first CNC from parts I bought here. The guides and video tutorials made it so easy. Highly recommended!" }
+    ];
+
+    const PRODUCT_CATEGORIES = {
+      router: ["Genmitsu 3018-PRO CNC Router Kit"],
+      bits: ["10-Piece Nano Blue Coat Flat Nose End Mill Set", "Variety Set C08 Nano Blue Coat Router Bits", "ER11 Collet Chuck Extension Rod 3.175mm", "CNC End Mill Set"],
+      accessories: ["42mm CNC Dust Shoe for 3018 Series", "Aluminum CNC Spoilboard Clamps Set", "Offline Controller for Genmitsu 3018-PRO", "Z-Axis Touch Probe Tool Setter", "CNC Stepper Motor Driver Board", "Mini Mist Coolant Spray System"]
+    };
+
+    function getProductCategory(product) {
+      for (const [cat, names] of Object.entries(PRODUCT_CATEGORIES)) {
+        if (names.some(n => product.name.toLowerCase().includes(n.toLowerCase().slice(0, 10)))) return cat;
+      }
+      return "accessories";
+    }
+  </script>
   <script src="products.js"></script>
-  <script src="payments.js"></script>
   <script src="app.js"></script>
+  <script src="payments.js"></script>
 </body>
 </html>

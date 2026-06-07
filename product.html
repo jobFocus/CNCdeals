@@ -4,84 +4,128 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="CNC product details — specifications, pricing, and add to cart.">
-  <title>FlavorCNC Trends | Product</title>
+  <title>CNC Deals | Product Detail</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD&intent=capture"></script>
   <script async src="https://pay.google.com/gp/p/js/pay.js"></script>
+  <style>
+    .detail-section { max-width: 1200px; margin: 0 auto; padding: 100px 24px 60px; }
+    .detail-card { display: flex; gap: 40px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 32px; flex-wrap: wrap; }
+    .detail-image { width: min(420px, 100%); aspect-ratio: 1.1/1; object-fit: cover; border-radius: 14px; flex-shrink: 0; }
+    .detail-body { flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 16px; }
+    .detail-title { font-size: clamp(1.4rem, 2vw, 2rem); font-weight: 700; color: #fff; line-height: 1.2; }
+    .detail-desc { color: #9ca3af; line-height: 1.6; }
+    .detail-price-row { display: flex; align-items: baseline; gap: 12px; }
+    .detail-price { font-size: 1.8rem; font-weight: 800; color: #fff; }
+    .detail-old-price { font-size: 1rem; color: #6b7280; text-decoration: line-through; }
+    .detail-add-btn { width: 100%; padding: 14px; border: none; border-radius: 999px; background: linear-gradient(135deg, #0c8ee7, #01599f); color: #fff; font-weight: 700; font-size: 1rem; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+    .detail-add-btn:hover { background: linear-gradient(135deg, #36aaf5, #0c8ee7); }
+    .back-link { color: #6b7280; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 24px; }
+    .back-link:hover { color: #36aaf5; }
+    .detail-meta { color: #6b7280; font-size: 0.9rem; }
+    .detail-actions { margin-top: auto; }
+    .nav-links a { display: inline; }
+  </style>
 </head>
 <body>
-  <div class="flavor-bg" aria-hidden="true">
-    <span class="blob blob-1"></span>
-    <span class="blob blob-2"></span>
-    <span class="blob blob-3"></span>
-    <span class="blob blob-4"></span>
-  </div>
+  <div class="noise-bg"></div>
 
-  <header class="topbar">
-    <div class="brand">
-      <span class="brand-logo">⚙️</span>
-      <div>
-        <p class="brand-title">FlavorCNC Trends</p>
-        <p class="brand-subtitle">Top 10 CNC Tools Picked for You</p>
-      </div>
+  <header class="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">
+        <span class="brand-icon">⚙</span>
+        <span class="brand-text">CNC <span class="brand-accent">Deals</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">← Back</a>
+        <button id="open-cart-btn" class="cart-btn" type="button">
+          <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span id="cart-count">0</span>
+        </button>
+      </nav>
     </div>
-    <nav class="top-links">
-      <a href="index.html">← Back to Catalog</a>
-      <button id="open-cart-btn" class="cart-chip" type="button">
-        Cart <span id="cart-count">0</span>
-      </button>
-    </nav>
   </header>
 
-  <main class="container">
-    <section id="product-detail" class="product-detail"></section>
+  <main class="detail-section">
+    <a href="index.html" class="back-link">← Back to Products</a>
+    <section id="product-detail"></section>
 
-    <aside id="cart-drawer" class="cart-drawer" aria-label="Shopping cart">
-      <div class="cart-header">
-        <h2>Your Cart</h2>
-        <button id="close-cart-btn" class="icon-btn" type="button" aria-label="Close cart">✕</button>
-      </div>
-      <div id="cart-items" class="cart-items"></div>
-      <div class="cart-footer">
-        <div class="cart-row">
-          <span>Subtotal</span>
-          <strong id="cart-total">$0.00</strong>
+    <aside id="cart-drawer" class="cart-overlay">
+      <div class="cart-drawer">
+        <div class="cart-header">
+          <h2 class="cart-heading">Your Cart</h2>
+          <button id="close-cart-btn" class="cart-close" type="button" aria-label="Close cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
         </div>
-        <button id="checkout-btn" class="checkout-btn" type="button">Proceed to Checkout</button>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-footer">
+          <div class="cart-total-row">
+            <span>Total</span>
+            <strong id="cart-total">$0.00</strong>
+          </div>
+          <button id="checkout-btn" class="checkout-btn" type="button">Proceed to Checkout</button>
+        </div>
       </div>
     </aside>
 
     <section id="checkout-section" class="checkout-section hidden">
-      <div class="checkout-head">
-        <h2>Checkout</h2>
-        <p>Pay securely using your preferred method.</p>
+      <div class="checkout-card" style="margin-top:40px">
+        <div class="checkout-header">
+          <h2>Checkout</h2>
+          <p>Pay securely using your preferred method.</p>
+        </div>
+        <div class="checkout-summary">
+          <span>Items: <strong id="checkout-items-count">0</strong></span>
+          <span>Total: <strong id="checkout-total">$0.00</strong></span>
+        </div>
+        <div class="payment-grid">
+          <div class="pay-card">
+            <h3><span class="pay-brand">PayPal</span></h3>
+            <p>Fast checkout with your PayPal account.</p>
+            <div id="paypal-button-container" class="pay-slot"></div>
+          </div>
+          <div class="pay-card">
+            <h3><span class="pay-brand">Google Pay</span></h3>
+            <p>Tap-and-go style payment powered by Google Pay.</p>
+            <div id="google-pay-button-container" class="pay-slot"></div>
+          </div>
+        </div>
+        <p id="payment-feedback" class="payment-feedback"></p>
+        <p class="sandbox-note">Sandbox/test payment mode is enabled by default. Replace credentials before production use.</p>
       </div>
-      <div class="checkout-summary">
-        <p>Items: <strong id="checkout-items-count">0</strong></p>
-        <p>Total: <strong id="checkout-total">$0.00</strong></p>
-      </div>
-      <div class="payment-methods">
-        <article class="pay-card">
-          <h3>PayPal</h3>
-          <p>Fast checkout with your PayPal account.</p>
-          <div id="paypal-button-container" class="pay-slot"></div>
-        </article>
-        <article class="pay-card">
-          <h3>Google Pay</h3>
-          <p>Tap-and-go style payment powered by Google Pay.</p>
-          <div id="google-pay-button-container" class="pay-slot"></div>
-        </article>
-      </div>
-      <p id="payment-feedback" class="payment-feedback" aria-live="polite"></p>
-      <p class="sandbox-note">Sandbox/test payment mode is enabled by default. Replace credentials before production use.</p>
     </section>
   </main>
 
   <footer class="footer">
-    <p>© <span id="year"></span> FlavorCNC Trends. Keep building with purpose.</p>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-icon">⚙</span>
+        <span class="brand-text">CNC <span class="brand-accent">Deals</span></span>
+        <p>Your trusted source for CNC machines, parts, and knowledge since 2024.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <a href="index.html#videos">Videos</a>
+        <a href="index.html#catalog">Products</a>
+        <a href="index.html#features">Features</a>
+      </div>
+      <div class="footer-links">
+        <h4>Contact</h4>
+        <span>hello@cncdeals.com</span>
+        <span>+1 (555) 123-4567</span>
+        <span>Austin, TX, USA</span>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="year"></span> CNC Deals. All rights reserved.</p>
+    </div>
   </footer>
 
   <script src="products.js"></script>
@@ -93,7 +137,7 @@
       var container = document.getElementById("product-detail");
 
       if (!product) {
-        container.innerHTML = '<div style="text-align:center;padding:4rem 1rem"><h2>Product not found</h2><a href="index.html" class="cta-btn" style="display:inline-block;margin-top:1rem">Browse Catalog</a></div>';
+        container.innerHTML = '<div style="text-align:center;padding:4rem 1rem"><h2 style="color:#fff">Product not found</h2><a href="index.html" style="display:inline-block;margin-top:1rem;color:#36aaf5">Browse Catalog</a></div>';
         return;
       }
 
@@ -102,12 +146,14 @@
           '<img class="detail-image" src="' + product.image + '" alt="' + product.name + '">' +
           '<div class="detail-body">' +
             '<h1 class="detail-title">' + product.name + '</h1>' +
-            '<p class="meta">⭐ ' + product.rating + ' · ' + product.sales + ' · Trend ' + product.trend + '/100</p>' +
+            '<p class="detail-meta">⭐ ' + product.rating + ' · ' + product.sales + ' · Trend ' + product.trend + '/100</p>' +
             '<p class="detail-desc">' + product.description + '</p>' +
-            '<div class="price-row"><p class="price">$' + product.price.toFixed(2) + '</p><p class="old-price">$' + product.oldPrice.toFixed(2) + '</p></div>' +
+            '<div class="detail-price-row">' +
+              '<span class="detail-price">$' + product.price.toFixed(2) + '</span>' +
+              '<span class="detail-old-price">$' + product.oldPrice.toFixed(2) + '</span>' +
+            '</div>' +
             '<div class="detail-actions">' +
-              '<button class="add-btn detail-add-btn" type="button" data-add-id="' + product.id + '">Add to Cart</button>' +
-              '<a href="index.html" class="ghost-btn">Back to All Products</a>' +
+              '<button class="detail-add-btn" type="button" data-add-id="' + product.id + '">Add to Cart</button>' +
             '</div>' +
           '</div>' +
         '</article>';
@@ -122,6 +168,7 @@
             window.__appState.paymentsMounted = false;
             if (window.__renderCart) window.__renderCart();
             document.getElementById("cart-drawer").classList.add("open");
+            document.body.style.overflow = "hidden";
           }
         });
       }

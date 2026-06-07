@@ -3,18 +3,14 @@
     products: Array.isArray(window.PRODUCTS) ? window.PRODUCTS : [],
     cart: new Map(),
     paymentsMounted: false,
-    motivationIndex: 0
+    activeVideoFilter: "all",
+    activeProductFilter: "all",
   };
 
-  const motivationLines = [
-    "Momentum starts with one sharp tool.",
-    "Create once, sell forever: machine your edge.",
-    "Small upgrades today become big output tomorrow.",
-    "Your next best product begins in your workshop now."
-  ];
-
   const productGrid = document.getElementById("product-grid");
-  const cartDrawer = document.getElementById("cart-drawer");
+  const videoGrid = document.getElementById("video-grid");
+  const testimonialsGrid = document.getElementById("testimonials-grid");
+  const cartOverlay = document.getElementById("cart-drawer");
   const cartItems = document.getElementById("cart-items");
   const cartCount = document.getElementById("cart-count");
   const cartTotal = document.getElementById("cart-total");
@@ -22,274 +18,258 @@
   const checkoutTotal = document.getElementById("checkout-total");
   const checkoutSection = document.getElementById("checkout-section");
   const paymentFeedback = document.getElementById("payment-feedback");
-  const heroMotivation = document.getElementById("hero-motivation");
-  const metricProducts = document.getElementById("metric-products");
-  const metricShops = document.getElementById("metric-shops");
-  const metricEnergy = document.getElementById("metric-energy");
 
   function formatCurrency(value) {
     return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD"
+      style: "currency", currency: "USD",
     }).format(Number(value || 0));
   }
 
   function getCartCount() {
     let count = 0;
-    state.cart.forEach(function (quantity) {
-      count += quantity;
-    });
+    state.cart.forEach(function (q) { count += q; });
     return count;
   }
 
   function getCartTotal() {
     let total = 0;
-    state.cart.forEach(function (quantity, id) {
-      const product = state.products.find(function (item) {
-        return item.id === id;
-      });
-      if (product) {
-        total += product.price * quantity;
-      }
+    state.cart.forEach(function (q, id) {
+      const product = state.products.find(function (p) { return p.id === id; });
+      if (product) total += product.price * q;
     });
     return total;
   }
 
-  function setFeedback(message, isError) {
-    paymentFeedback.textContent = message || "";
-    paymentFeedback.classList.toggle("error", Boolean(isError));
+  function setFeedback(msg, isError) {
+    if (paymentFeedback) {
+      paymentFeedback.textContent = msg || "";
+      paymentFeedback.classList.toggle("error", Boolean(isError));
+    }
   }
 
-  function animateMetric(element, target, suffix) {
-    const duration = 850;
-    const startTime = performance.now();
-
+  function animateMetric(el, target, suffix) {
+    if (!el) return;
+    var duration = 850;
+    var start = performance.now();
     function tick(now) {
-      const progress = Math.min((now - startTime) / duration, 1);
-      const currentValue = Math.floor(target * progress);
-      element.textContent = String(currentValue) + (suffix || "");
-      if (progress < 1) {
-        requestAnimationFrame(tick);
-      }
+      var p = Math.min((now - start) / duration, 1);
+      el.textContent = Math.floor(target * p) + (suffix || "");
+      if (p < 1) requestAnimationFrame(tick);
     }
-
     requestAnimationFrame(tick);
   }
 
-  function startMotivationRotation() {
-    heroMotivation.textContent = motivationLines[0];
-    setInterval(function () {
-      state.motivationIndex = (state.motivationIndex + 1) % motivationLines.length;
-      heroMotivation.textContent = motivationLines[state.motivationIndex];
-    }, 2600);
+  /* ===== VIDEOS ===== */
+  function renderVideos() {
+    if (!videoGrid) return;
+    var filtered = CNC_VIDEOS;
+    if (state.activeVideoFilter !== "all") {
+      filtered = CNC_VIDEOS.filter(function (v) { return v.category === state.activeVideoFilter; });
+    }
+    videoGrid.innerHTML = filtered.map(function (v) {
+      return (
+        '<article class="video-card">' +
+          '<div class="video-frame">' +
+            '<iframe src="https://www.youtube.com/embed/' + v.embedId + '" title="' + v.title + '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>' +
+          '</div>' +
+          '<div class="video-info">' +
+            '<span class="video-category">' + v.category + '</span>' +
+            '<h3 class="video-title">' + v.title + '</h3>' +
+            '<p class="video-desc">' + v.description + '</p>' +
+          '</div>' +
+        '</article>'
+      );
+    }).join("");
+  }
+
+  /* ===== TESTIMONIALS ===== */
+  function renderTestimonials() {
+    if (!testimonialsGrid) return;
+    testimonialsGrid.innerHTML = TESTIMONIALS.map(function (t) {
+      var stars = Array(5).fill(
+        '<svg viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>'
+      ).join("");
+      return (
+        '<article class="testimonial-card">' +
+          '<div class="stars">' + stars + '</div>' +
+          '<p class="testimonial-content">"' + t.content + '"</p>' +
+          '<div class="testimonial-author">' +
+            '<div class="testimonial-avatar">' + t.avatar + '</div>' +
+            '<div><p class="testimonial-name">' + t.name + '</p><p class="testimonial-role">' + t.role + '</p></div>' +
+          '</div>' +
+        '</article>'
+      );
+    }).join("");
+  }
+
+  /* ===== PRODUCTS ===== */
+  function getProductCategory(product) {
+    var name = product.name.toLowerCase();
+    if (name.includes("router") || name.includes("machine")) return "router";
+    if (name.includes("bit") || name.includes("end mill") || name.includes("collet")) return "bits";
+    return "accessories";
   }
 
   function renderProducts() {
-    const items = state.products;
-
+    var items = state.products;
     if (!items.length) {
-      productGrid.innerHTML = '<p class="empty-cart">No products available.</p>';
+      productGrid.innerHTML = '<p style="text-align:center;color:#6b7280;grid-column:1/-1">No products available.</p>';
       return;
     }
-
-    productGrid.innerHTML = items
-      .map(function (product) {
-        return (
-          '<article class="product-card">' +
-          '<a href="product.html?id=' +
-          product.id +
-          '" class="product-image-link"><img class="product-image" src="' +
-          product.image +
-          '" alt="' +
-          product.name +
-          '"></a>' +
+    var filtered = items;
+    if (state.activeProductFilter !== "all") {
+      filtered = items.filter(function (p) { return getProductCategory(p) === state.activeProductFilter; });
+    }
+    productGrid.innerHTML = filtered.map(function (p) {
+      var badge = null;
+      if (p.trend >= 97) badge = "Best Seller";
+      else if (p.trend >= 93) badge = "Popular";
+      return (
+        '<article class="product-card">' +
+          '<div class="product-image-wrap">' +
+            (badge ? '<span class="product-badge">' + badge + '</span>' : '') +
+            '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy">' +
+          '</div>' +
           '<div class="product-body">' +
-          '<a href="product.html?id=' +
-          product.id +
-          '" class="product-name-link"><h3 class="product-name">' +
-          product.name +
-          "</h3></a>" +
-          '<p class="meta">⭐ ' +
-          product.rating +
-          " · " +
-          product.sales +
-          " · Trend " +
-          product.trend +
-          "/100</p>" +
-          '<p class="meta">' +
-          product.description +
-          "</p>" +
-          '<div class="price-row"><p class="price">' +
-          formatCurrency(product.price) +
-          '</p><p class="old-price">' +
-          formatCurrency(product.oldPrice) +
-          "</p></div>" +
-          '<div class="actions">' +
-          '<button class="add-btn" type="button" data-add-id="' +
-          product.id +
-          '">Add to Cart</button>' +
-          "</div>" +
-          "</div>" +
-          "</article>"
-        );
-      })
-      .join("");
+            '<h3 class="product-name"><a href="product.html?id=' + p.id + '">' + p.name + '</a></h3>' +
+            '<p class="product-meta">⭐ ' + p.rating + ' · ' + p.sales + ' · Trend ' + p.trend + '/100</p>' +
+            '<p class="product-desc">' + p.description + '</p>' +
+            '<div class="product-price-row">' +
+              '<span class="product-price">' + formatCurrency(p.price) + '</span>' +
+              '<span class="product-old-price">' + formatCurrency(p.oldPrice) + '</span>' +
+            '</div>' +
+            '<button class="product-add-btn" type="button" data-add-id="' + p.id + '">Add to Cart</button>' +
+          '</div>' +
+        '</article>'
+      );
+    }).join("");
   }
 
+  /* ===== CART ===== */
   function renderCart() {
-    const entries = Array.from(state.cart.entries());
-
+    var entries = Array.from(state.cart.entries());
     if (!entries.length) {
-      cartItems.innerHTML = '<div class="empty-cart">Your cart is empty. Add a CNC trend pick to continue.</div>';
+      cartItems.innerHTML = '<div class="cart-empty">Your cart is empty. Add a CNC product to start.</div>';
     } else {
-      cartItems.innerHTML = entries
-        .map(function (entry) {
-          const id = entry[0];
-          const quantity = entry[1];
-          const product = state.products.find(function (item) {
-            return item.id === id;
-          });
-          if (!product) {
-            return "";
-          }
-          return (
-            '<article class="cart-item">' +
+      cartItems.innerHTML = entries.map(function (e) {
+        var id = e[0], qty = e[1];
+        var product = state.products.find(function (p) { return p.id === id; });
+        if (!product) return "";
+        return (
+          '<article class="cart-item">' +
             '<div class="cart-item-top">' +
-            '<div><p class="cart-item-name">' +
-            product.name +
-            '</p><p class="cart-item-price">' +
-            formatCurrency(product.price) +
-            " each</p></div>" +
-            '<button class="remove-btn" type="button" data-remove-id="' +
-            id +
-            '">Remove</button>' +
-            "</div>" +
-            '<div class="qty-line">' +
-            '<div class="qty-controls">' +
-            '<button type="button" data-qty-id="' +
-            id +
-            '" data-delta="-1">-</button>' +
-            "<span>" +
-            quantity +
-            "</span>" +
-            '<button type="button" data-qty-id="' +
-            id +
-            '" data-delta="1">+</button>' +
-            "</div>" +
-            "<strong>" +
-            formatCurrency(product.price * quantity) +
-            "</strong>" +
-            "</div>" +
-            "</article>"
-          );
-        })
-        .join("");
+              '<div><p class="cart-item-name">' + product.name + '</p><p class="cart-item-price">' + formatCurrency(product.price) + ' each</p></div>' +
+              '<button class="cart-item-remove" type="button" data-remove-id="' + id + '">Remove</button>' +
+            '</div>' +
+            '<div class="cart-item-bottom">' +
+              '<div class="qty-controls">' +
+                '<button type="button" data-qty-id="' + id + '" data-delta="-1">−</button>' +
+                '<span>' + qty + '</span>' +
+                '<button type="button" data-qty-id="' + id + '" data-delta="1">+</button>' +
+              '</div>' +
+              '<span class="cart-item-subtotal">' + formatCurrency(product.price * qty) + '</span>' +
+            '</div>' +
+          '</article>'
+        );
+      }).join("");
     }
-
-    const itemCount = getCartCount();
-    const total = getCartTotal();
-    cartCount.textContent = String(itemCount);
+    var count = getCartCount();
+    var total = getCartTotal();
+    cartCount.textContent = String(count);
     cartTotal.textContent = formatCurrency(total);
-    checkoutItemsCount.textContent = String(itemCount);
-    checkoutTotal.textContent = formatCurrency(total);
+    if (checkoutItemsCount) checkoutItemsCount.textContent = String(count);
+    if (checkoutTotal) checkoutTotal.textContent = formatCurrency(total);
   }
 
   function addToCart(productId) {
-    const quantity = state.cart.get(productId) || 0;
-    state.cart.set(productId, quantity + 1);
+    var qty = state.cart.get(productId) || 0;
+    state.cart.set(productId, qty + 1);
     state.paymentsMounted = false;
     renderCart();
-    cartDrawer.classList.add("open");
+    cartOverlay.classList.add("open");
+    document.body.style.overflow = "hidden";
   }
 
   function changeQuantity(productId, delta) {
-    const current = state.cart.get(productId) || 0;
-    const next = current + delta;
-    if (next <= 0) {
-      state.cart.delete(productId);
-    } else {
-      state.cart.set(productId, next);
-    }
+    var current = state.cart.get(productId) || 0;
+    var next = current + delta;
+    if (next <= 0) state.cart.delete(productId);
+    else state.cart.set(productId, next);
     state.paymentsMounted = false;
     renderCart();
   }
 
+  /* ===== PAYMENTS ===== */
   function initializePayments() {
-    if (state.paymentsMounted) {
-      return;
-    }
-
+    if (state.paymentsMounted) return;
     if (!window.PaymentGateway) {
-      setFeedback("Payment SDKs are unavailable. Refresh and try again.", true);
+      setFeedback("Payment SDKs unavailable. Refresh and try again.", true);
       return;
     }
-
-    const onSuccess = function (result) {
+    var onSuccess = function (result) {
       state.cart.clear();
       renderCart();
       state.paymentsMounted = false;
       setFeedback(result.provider + " payment approved in test mode. Order received!", false);
     };
-
-    const onError = function (message) {
-      setFeedback(message, true);
-    };
-
+    var onError = function (msg) { setFeedback(msg, true); };
     window.PaymentGateway.mountPayPal({
       containerId: "paypal-button-container",
       getAmount: getCartTotal,
       onSuccess: onSuccess,
-      onError: onError
+      onError: onError,
     });
-
     window.PaymentGateway.mountGooglePay({
       containerId: "google-pay-button-container",
       getAmount: getCartTotal,
       onSuccess: onSuccess,
-      onError: onError
+      onError: onError,
     });
-
     state.paymentsMounted = true;
   }
 
-  productGrid.addEventListener("click", function (event) {
-    const addButton = event.target.closest("button[data-add-id]");
-    if (!addButton) {
-      return;
+  /* ===== EVENT DELEGATION ===== */
+  // Product grid events
+  productGrid.addEventListener("click", function (e) {
+    var btn = e.target.closest("button[data-add-id]");
+    if (btn) {
+      addToCart(btn.getAttribute("data-add-id"));
+      setFeedback("");
     }
-    addToCart(addButton.getAttribute("data-add-id"));
-    setFeedback("");
   });
 
-  cartItems.addEventListener("click", function (event) {
-    const removeButton = event.target.closest("button[data-remove-id]");
-    if (removeButton) {
-      state.cart.delete(removeButton.getAttribute("data-remove-id"));
+  // Cart events
+  cartItems.addEventListener("click", function (e) {
+    var rm = e.target.closest("button[data-remove-id]");
+    if (rm) {
+      state.cart.delete(rm.getAttribute("data-remove-id"));
       state.paymentsMounted = false;
       renderCart();
       return;
     }
-
-    const qtyButton = event.target.closest("button[data-qty-id]");
-    if (qtyButton) {
-      const id = qtyButton.getAttribute("data-qty-id");
-      const delta = Number(qtyButton.getAttribute("data-delta"));
-      changeQuantity(id, delta);
+    var qtyBtn = e.target.closest("button[data-qty-id]");
+    if (qtyBtn) {
+      changeQuantity(qtyBtn.getAttribute("data-qty-id"), Number(qtyBtn.getAttribute("data-delta")));
     }
   });
 
+  // Cart open/close
   document.getElementById("open-cart-btn").addEventListener("click", function () {
-    cartDrawer.classList.add("open");
+    cartOverlay.classList.add("open");
+    document.body.style.overflow = "hidden";
   });
-
   document.getElementById("close-cart-btn").addEventListener("click", function () {
-    cartDrawer.classList.remove("open");
+    cartOverlay.classList.remove("open");
+    document.body.style.overflow = "";
+  });
+  cartOverlay.addEventListener("click", function (e) {
+    if (e.target === cartOverlay) {
+      cartOverlay.classList.remove("open");
+      document.body.style.overflow = "";
+    }
   });
 
-  document.getElementById("shop-now-btn").addEventListener("click", function () {
-    document.getElementById("catalog").scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-
+  // Checkout
   document.getElementById("checkout-btn").addEventListener("click", function () {
     if (!getCartCount()) {
       setFeedback("Add at least one product to continue checkout.", true);
@@ -301,15 +281,80 @@
     initializePayments();
   });
 
-  document.getElementById("year").textContent = String(new Date().getFullYear());
+  // Video filters
+  var videoFilterRow = document.getElementById("video-filter-row");
+  if (videoFilterRow) {
+    videoFilterRow.addEventListener("click", function (e) {
+      var btn = e.target.closest(".filter-btn");
+      if (!btn) return;
+      videoFilterRow.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      state.activeVideoFilter = btn.getAttribute("data-filter");
+      renderVideos();
+    });
+  }
 
-  animateMetric(metricProducts, state.products.length, "");
-  animateMetric(metricShops, 3, "");
-  animateMetric(metricEnergy, 100, "%");
-  startMotivationRotation();
+  // Product filters
+  var productFilterRow = document.getElementById("product-filter-row");
+  if (productFilterRow) {
+    productFilterRow.addEventListener("click", function (e) {
+      var btn = e.target.closest(".filter-btn");
+      if (!btn) return;
+      productFilterRow.querySelectorAll(".filter-btn").forEach(function (b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      state.activeProductFilter = btn.getAttribute("data-filter");
+      renderProducts();
+    });
+  }
+
+  /* ===== MOBILE MENU ===== */
+  var mobileBtn = document.getElementById("mobile-menu-btn");
+  if (mobileBtn) {
+    mobileBtn.addEventListener("click", function () {
+      var nav = document.querySelector(".nav-links");
+      nav.classList.toggle("open");
+      if (nav.classList.contains("open")) {
+        nav.style.display = "flex";
+        nav.style.flexDirection = "column";
+        nav.style.position = "absolute";
+        nav.style.top = "64px";
+        nav.style.left = "0";
+        nav.style.right = "0";
+        nav.style.background = "rgba(10,10,15,0.95)";
+        nav.style.backdropFilter = "blur(16px)";
+        nav.style.padding = "16px 24px";
+        nav.style.borderBottom = "1px solid rgba(255,255,255,0.06)";
+        nav.querySelectorAll("a").forEach(function (a) { a.style.display = "block"; a.style.padding = "12px 0"; });
+      } else {
+        nav.style.display = "";
+        nav.style.flexDirection = "";
+        nav.style.position = "";
+        nav.style.top = "";
+        nav.style.left = "";
+        nav.style.right = "";
+        nav.style.background = "";
+        nav.style.backdropFilter = "";
+        nav.style.padding = "";
+        nav.style.borderBottom = "";
+        nav.querySelectorAll("a").forEach(function (a) { a.style.display = ""; a.style.padding = ""; });
+      }
+    });
+  }
+
+  /* ===== INIT ===== */
+  renderVideos();
+  renderTestimonials();
   renderProducts();
   renderCart();
 
+  // Animate metrics
+  animateMetric(document.getElementById("metric-products"), state.products.length, "");
+  animateMetric(document.getElementById("metric-customers"), 12, "K+");
+  animateMetric(document.getElementById("stat-trending"), 250, "+");
+
+  document.getElementById("year").textContent = String(new Date().getFullYear());
+
+  // Expose for product.html
   window.__appState = state;
   window.__renderCart = renderCart;
 })();
